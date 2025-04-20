@@ -1,0 +1,9 @@
+192.168.8.189 lap ip
+
+http://192.168.8.189:5000/apidocs
+
+
+python app.py
+
+
+python app.py --host=0.0.0.0
