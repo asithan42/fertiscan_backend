@@ -110,8 +110,25 @@ def upload_leaf_image():
         model = initialize_model(num_classes)
         model = load_model_weights(model)
 
-        # Predict
+        # # Predict
+        # predicted_class = predict_image(processed_path, model, class_indices)
+
+        # return jsonify({
+        #     'message': 'Leaf image uploaded, processed, and predicted successfully',
+        #     'original': filename,
+        #     'processed': processed_filename,
+        #     'predicted_class': predicted_class
+        # }), 200
+
+
+                # Predict
         predicted_class = predict_image(processed_path, model, class_indices)
+
+        # Keep only the 5 most recent files in LEAF_FOLDER, delete the rest
+        files = [os.path.join(LEAF_FOLDER, f) for f in os.listdir(LEAF_FOLDER) if os.path.isfile(os.path.join(LEAF_FOLDER, f))]
+        files.sort(key=os.path.getmtime, reverse=True)
+        for f in files[5:]:  # Skip the first 5 (most recent), delete the rest
+            os.remove(f)
 
         return jsonify({
             'message': 'Leaf image uploaded, processed, and predicted successfully',
@@ -119,6 +136,8 @@ def upload_leaf_image():
             'processed': processed_filename,
             'predicted_class': predicted_class
         }), 200
+
+
 
     except Exception as e:
         return jsonify({'error': f'{str(e)}'}), 500
