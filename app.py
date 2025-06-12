@@ -28,8 +28,8 @@ def is_blurry(image, threshold=100):
 
 def sharpen(image):
     kernel = np.array([[0, -1, 0],
-                       [-1, 5,-1],
-                       [0, -1, 0]])
+                    [-1, 5,-1],
+                    [0, -1, 0]])
     return cv2.filter2D(image, -1, kernel)
 
 def is_dark_or_bright(image, low_thresh=80, high_thresh=180):
@@ -110,18 +110,7 @@ def upload_leaf_image():
         model = initialize_model(num_classes)
         model = load_model_weights(model)
 
-        # # Predict
-        # predicted_class = predict_image(processed_path, model, class_indices)
-
-        # return jsonify({
-        #     'message': 'Leaf image uploaded, processed, and predicted successfully',
-        #     'original': filename,
-        #     'processed': processed_filename,
-        #     'predicted_class': predicted_class
-        # }), 200
-
-
-                # Predict
+        
         predicted_class = predict_image(processed_path, model, class_indices)
 
         # Keep only the 5 most recent files in LEAF_FOLDER, delete the rest
